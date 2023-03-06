@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Count Badge Example</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <h1>Count: <span id="count-badge">0</span></h1>
+    <button id="increment-button">Increment</button>
+    <!-- <button id="reset-button">Reset Count</button> -->
+
+    <script>
+        const socket = io();
+
+        // Handle count updates
+        socket.on('updateCount', (count) => {
+            document.getElementById('count-badge').textContent = count;
+        });
+
+        // Handle button clicks
+        document.getElementById('increment-button').addEventListener('click', () => {
+            socket.emit('incrementCount');
+        });
+
+        // add a click event listener to the button
+        document.getElementById('reset-button').addEventListener('click', function () {
+            let count = 0; // update the count variable to 0
+            updateBadge(count); // update the badge with the new count value
+        });
+
+        // function to update the badge with the current count value
+        function updateBadge(count) {
+            socket.on('updateCount', (count) => {
+                document.getElementById('count-badge').textContent = count;
+            });
+
+        }
+
+    </script>
+</body>
+
+</html>
